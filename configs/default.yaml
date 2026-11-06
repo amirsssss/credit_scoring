@@ -1,0 +1,32 @@
+# Pipeline settings. Dates are YYYY-MM-DD, durations are in days.
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  models: models
+  reports: reports
+
+features:
+  observation_days: 180   # look-back window before each decision date
+  gap_days: 0             # extra days to skip before the decision, to match production data delay
+
+label:
+  kind: single_payment    # single_payment (emergency credit, short loans) | dpd_snapshots (installments)
+  dpd_threshold: 30       # days past due that count as default; 90 is usual for installment loans
+  performance_days: 365   # dpd_snapshots only: how long after the decision a default still counts
+  as_of: null             # date up to which outcomes are known; null = latest data
+
+split:                    # out-of-time validation
+  train_end: null         # train on decisions before this date, e.g. 2026-01-01
+  test_start: null        # test on decisions on or after this date
+
+scorecard:                # score = offset + factor * ln(good:bad odds), factor = pdo / ln(2)
+  base_score: 600
+  base_odds: 50           # good:bad odds at base_score
+  pdo: 20                 # points to double the odds
+
+monitoring:
+  psi_bins: 10
+  psi_warn: 0.10
+  psi_alert: 0.25

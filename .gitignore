@@ -1,0 +1,23 @@
+# --- Data and outputs: never commit (they contain personal data) ---
+data/*/*
+!data/*/.gitkeep
+models/*
+!models/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- Local secrets ---
+.env
